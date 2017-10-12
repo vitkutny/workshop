@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+    nginx-proxy:
+      image: jwilder/nginx-proxy
+      ports:
+        - 80:80
+      volumes:
+        - /var/run/docker.sock:/tmp/docker.sock:ro
+
+    dnsmasq:
+      image: andyshinn/dnsmasq
+      ports:
+        - 53:53/tcp
+        - 53:53/udp
+      cap_add:
+        - NET_ADMIN
+      command: --address=/localhost/127.0.0.1
+
+networks:
+  default:
+    external:
+      name: multiple-applications
